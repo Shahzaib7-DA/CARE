@@ -3,19 +3,16 @@ import { useSettingsStore } from '@/store'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
-import { Toggle, Sliders } from 'lucide-react'
 
 export function SettingsPage() {
   const {
     demoMode,
     riskThresholds,
     alertsEnabled,
-    darkMode,
     autoRefresh,
     setDemoMode,
     setThresholds,
     setAlertsEnabled,
-    setDarkMode,
     setAutoRefresh,
   } = useSettingsStore()
 

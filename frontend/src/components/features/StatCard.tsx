@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { ReactNode } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
-import { TrendingUp, AlertCircle } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 import { useCountUp } from '@/hooks/useUI'
 
 interface StatCardProps {

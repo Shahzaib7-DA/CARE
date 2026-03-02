@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { usePatientStore } from '@/store'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { RiskBadge } from '@/components/features/RiskBadge'
 import { Button } from '@/components/ui/button'
 import { AlertCircle, Check } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { formatDate, getTimeAgo } from '@/lib/utils'
+import { getTimeAgo } from '@/lib/utils'
 
 export function AlertsPage() {
   const alerts = usePatientStore((s) => s.alerts)

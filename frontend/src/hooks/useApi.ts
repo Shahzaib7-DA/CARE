@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiService } from '@/services/api'
-import type { Patient, DashboardStats } from '@/types'
 
 export const QUERY_KEYS = {
   patients: ['patients'],

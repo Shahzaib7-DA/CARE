@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Patient, Alert, RiskLevel } from '@/types'
+import type { Patient, Alert } from '@/types'
 
 interface SettingsStore {
   demoMode: boolean
