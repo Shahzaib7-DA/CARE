@@ -3,10 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Patient } from '@/types'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { RiskBadge } from './RiskBadge'
-import { Button } from '@/components/ui/button'
 import { ChevronRight, Search } from 'lucide-react'
 import { useDebounce } from '@/hooks/useUI'
-import { cn, formatDate, getTimeAgo } from '@/lib/utils'
+import { cn, getTimeAgo } from '@/lib/utils'
 
 interface PatientTableProps {
   patients: Patient[]
