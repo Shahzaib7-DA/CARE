@@ -1,0 +1,5 @@
+export { DashboardPage } from './DashboardPage'
+export { PatientsPage } from './PatientsPage'
+export { PatientDetailPage } from './PatientDetailPage'
+export { AlertsPage } from './AlertsPage'
+export { SettingsPage } from './SettingsPage'
