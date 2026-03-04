@@ -34,8 +34,10 @@ export function SettingsPage() {
     >
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Settings</h1>
-        <p className="text-slate-500 mt-2">
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
+          Settings
+        </h1>
+        <p className="text-slate-500 dark:text-slate-400 mt-2">
           Configure system behavior and risk thresholds
         </p>
       </div>
@@ -53,10 +55,12 @@ export function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Demo Mode */}
-            <div className="flex items-center justify-between p-4 hover:bg-slate-50 rounded-lg transition-colors">
+            <div className="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
               <div>
-                <p className="font-medium text-slate-900">Demo Mode</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-medium text-slate-900 dark:text-slate-100">
+                  Demo Mode
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   Use simulated patient data for testing
                 </p>
               </div>
@@ -75,10 +79,12 @@ export function SettingsPage() {
             </div>
 
             {/* Auto Refresh */}
-            <div className="flex items-center justify-between p-4 hover:bg-slate-50 rounded-lg transition-colors border-t border-slate-200">
+            <div className="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors border-t border-slate-200 dark:border-slate-700">
               <div>
-                <p className="font-medium text-slate-900">Auto Refresh</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-medium text-slate-900 dark:text-slate-100">
+                  Auto Refresh
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   Automatically update patient data
                 </p>
               </div>
@@ -97,10 +103,12 @@ export function SettingsPage() {
             </div>
 
             {/* Alerts */}
-            <div className="flex items-center justify-between p-4 hover:bg-slate-50 rounded-lg transition-colors border-t border-slate-200">
+            <div className="flex items-center justify-between p-4 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors border-t border-slate-200 dark:border-slate-700">
               <div>
-                <p className="font-medium text-slate-900">Alerts Enabled</p>
-                <p className="text-sm text-slate-500">
+                <p className="font-medium text-slate-900 dark:text-slate-100">
+                  Alerts Enabled
+                </p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   Receive high-risk patient notifications
                 </p>
               </div>
@@ -138,11 +146,11 @@ export function SettingsPage() {
             {/* Green Threshold */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="font-medium text-slate-900">
+                <label className="font-medium text-slate-900 dark:text-slate-100">
                   <span className="inline-block w-3 h-3 bg-risk-green rounded-full mr-2" />
                   Green Risk Threshold
                 </label>
-                <span className="text-lg font-bold text-slate-900">
+                <span className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   {(greenThreshold * 100).toFixed(0)}%
                 </span>
               </div>
@@ -155,19 +163,19 @@ export function SettingsPage() {
                 onChange={(e) => setGreenThreshold(Number(e.target.value))}
                 className="w-full accent-risk-green"
               />
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Score below this level = Stable
               </p>
             </div>
 
             {/* Yellow Threshold */}
-            <div className="space-y-3 border-t border-slate-200 pt-6">
+            <div className="space-y-3 border-t border-slate-200 dark:border-slate-700 pt-6">
               <div className="flex items-center justify-between">
-                <label className="font-medium text-slate-900">
+                <label className="font-medium text-slate-900 dark:text-slate-100">
                   <span className="inline-block w-3 h-3 bg-risk-yellow rounded-full mr-2" />
                   Yellow Risk Threshold
                 </label>
-                <span className="text-lg font-bold text-slate-900">
+                <span className="text-lg font-bold text-slate-900 dark:text-slate-100">
                   {(yellowThreshold * 100).toFixed(0)}%
                 </span>
               </div>
@@ -180,10 +188,10 @@ export function SettingsPage() {
                 onChange={(e) => setYellowThreshold(Number(e.target.value))}
                 className="w-full accent-risk-yellow"
               />
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Score between Green and Yellow = Warning
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Score above Yellow = Critical
               </p>
             </div>
@@ -216,16 +224,16 @@ export function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">
+              <label className="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
                 Backend API URL
               </label>
               <input
                 type="url"
                 placeholder="http://localhost:8000"
                 defaultValue="http://localhost:8000"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-medical-blue"
+                className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-medical-blue bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
               />
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Set environment variable VITE_API_URL
               </p>
             </div>
@@ -240,13 +248,15 @@ export function SettingsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <Card className="bg-slate-50">
+        <Card className="bg-slate-50 dark:bg-slate-900">
           <CardContent className="pt-6">
-            <h3 className="font-semibold text-slate-900 mb-2">CareMind Clinical Risk Dashboard</h3>
-            <p className="text-sm text-slate-600">
+            <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">
+              CareMind Clinical Risk Dashboard
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
               Version 1.0.0 • AI-powered sepsis risk monitoring system
             </p>
-            <p className="text-xs text-slate-500 mt-3">
+            <p className="text-xs text-slate-500 dark:text-slate-500 mt-3">
               © 2026 CareMind Health Systems. All rights reserved.
             </p>
           </CardContent>

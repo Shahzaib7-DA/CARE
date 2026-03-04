@@ -85,7 +85,11 @@ export function PatientDetailPage() {
           className="lg:col-span-2"
         >
           <Card
-            className={patient.risk_level === 'RED' ? 'border-2 border-red-300' : ''}
+            className={
+              patient.risk_level === 'RED'
+                ? 'border-2 border-red-300 dark:border-red-800'
+                : ''
+            }
           >
             <CardHeader>
               <CardTitle>Risk Assessment</CardTitle>
@@ -106,14 +110,18 @@ export function PatientDetailPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">Sepsis Risk</p>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-sm text-slate-500 dark:text-slate-300 mb-1">
+                    Sepsis Risk
+                  </p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-white">
                     {(patient.sepsis_risk * 100).toFixed(1)}%
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500 mb-1">Pattern Score</p>
-                  <p className="text-2xl font-bold text-slate-900">
+                  <p className="text-sm text-slate-500 dark:text-slate-300 mb-1">
+                    Pattern Score
+                  </p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-white">
                     {(patient.pattern_score * 100).toFixed(1)}%
                   </p>
                 </div>
@@ -133,29 +141,33 @@ export function PatientDetailPage() {
               <CardTitle className="text-base">Status Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between pb-4 border-b border-slate-200">
-                <span className="text-sm text-slate-600">Status</span>
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
+                <span className="text-sm text-slate-600 dark:text-slate-300">
+                  Status
+                </span>
                 <RiskBadge
                   level={patient.risk_level}
                   score={patient.sepsis_risk}
                   animated={false}
                 />
               </div>
-              <div className="flex items-center justify-between pb-4 border-b border-slate-200">
-                <span className="text-sm text-slate-600">Last Updated</span>
-                <span className="text-sm font-medium text-slate-900">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
+                <span className="text-sm text-slate-600 dark:text-slate-300">
+                  Last Updated
+                </span>
+                <span className="text-sm font-medium text-slate-900 dark:text-white">
                   {getTimeAgo(patient.last_updated)}
                 </span>
               </div>
               <div>
-                <p className="text-xs text-slate-500 mb-2 font-semibold">
+                <p className="text-xs text-slate-500 dark:text-slate-300 mb-2 font-semibold">
                   Clinical Factors
                 </p>
                 <div className="space-y-1">
                   {patient.reasons.map((reason, i) => (
                     <p
                       key={i}
-                      className="text-xs text-slate-600 flex items-center gap-2"
+                      className="text-xs text-slate-600 dark:text-slate-300 flex items-center gap-2"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-risk-red" />
                       {reason}
@@ -192,47 +204,59 @@ export function PatientDetailPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                <div className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <Heart className="w-5 h-5 text-medical-blue mt-0.5" />
                   <div>
-                    <p className="text-xs text-slate-600">Heart Rate</p>
-                    <p className="text-lg font-bold text-slate-900">
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
+                      Heart Rate
+                    </p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">
                       {patient.vitals.HR}{' '}
-                      <span className="text-xs font-normal text-slate-500">
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
                         bpm
                       </span>
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                <div className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <Droplets className="w-5 h-5 text-medical-blue mt-0.5" />
                   <div>
-                    <p className="text-xs text-slate-600">O2 Saturation</p>
-                    <p className="text-lg font-bold text-slate-900">
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
+                      O2 Saturation
+                    </p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">
                       {patient.vitals.O2Sat}{' '}
-                      <span className="text-xs font-normal text-slate-500">%</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
+                        %
+                      </span>
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                <div className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <Thermometer className="w-5 h-5 text-medical-blue mt-0.5" />
                   <div>
-                    <p className="text-xs text-slate-600">Temperature</p>
-                    <p className="text-lg font-bold text-slate-900">
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
+                      Temperature
+                    </p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">
                       {patient.vitals.Temp.toFixed(1)}{' '}
-                      <span className="text-xs font-normal text-slate-500">°C</span>
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
+                        °C
+                      </span>
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
+                <div className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
                   <div>
-                    <p className="text-xs text-slate-600">MAP</p>
-                    <p className="text-lg font-bold text-slate-900">
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
+                      MAP
+                    </p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">
                       {patient.vitals.MAP.toFixed(0)}{' '}
-                      <span className="text-xs font-normal text-slate-500">
+                      <span className="text-xs font-normal text-slate-500 dark:text-slate-400">
                         mmHg
                       </span>
                     </p>
@@ -240,7 +264,7 @@ export function PatientDetailPage() {
                 </div>
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-900">
+              <div className="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-lg p-3 text-xs text-blue-900 dark:text-blue-100">
                 <p className="font-medium mb-1">Clinical Assessment</p>
                 <p>
                   Patient presenting with {patient.reasons.length > 0 ? `${patient.reasons.length} risk factor(s): ${patient.reasons.join(', ')}` : 'normal vital parameters with stable sepsis risk'}

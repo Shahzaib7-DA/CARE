@@ -74,9 +74,9 @@ export function AddPatientMenu({
       </Button>
 
       {mainOpen && (
-        <div className="absolute right-0 mt-2 w-44 bg-white border border-slate-200 rounded shadow-lg z-20">
+        <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg z-20">
           <button
-            className="w-full text-left px-4 py-2 text-sm hover:bg-slate-100"
+            className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700"
             onClick={() => {
               setSubOpen(true)
             }}
@@ -84,7 +84,7 @@ export function AddPatientMenu({
             Add Patient
           </button>
           <button
-            className="w-full text-left px-4 py-2 text-sm hover:bg-slate-100"
+            className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700"
             onClick={handleDatasetClick}
           >
             Add Dataset
@@ -93,9 +93,9 @@ export function AddPatientMenu({
       )}
 
       {subOpen && (
-        <div className="absolute right-full top-0 mt-2 w-44 bg-white border border-slate-200 rounded shadow-lg z-30">
+        <div className="absolute right-full top-0 mt-2 w-44 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg z-30">
           <button
-            className="w-full text-left px-4 py-2 text-sm hover:bg-slate-100"
+            className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700"
             onClick={() => {
               setMainOpen(false)
               setSubOpen(false)
@@ -105,7 +105,7 @@ export function AddPatientMenu({
             Text Mode
           </button>
           <button
-            className="w-full text-left px-4 py-2 text-sm hover:bg-slate-100"
+            className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700"
             onClick={() => {
               setMainOpen(false)
               setSubOpen(false)
@@ -115,7 +115,7 @@ export function AddPatientMenu({
             Voice Mode
           </button>
           <button
-            className="w-full text-left px-4 py-2 text-sm hover:bg-slate-100"
+            className="w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700"
             onClick={() => {
               setMainOpen(false)
               setSubOpen(false)

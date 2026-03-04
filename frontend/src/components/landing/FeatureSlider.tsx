@@ -272,7 +272,9 @@ export function FeatureSlider() {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <p className="text-slate-600 mb-4">Ready to learn more about our journey?</p>
+          <p className="text-slate-600 dark:text-slate-300 mb-4">
+            Ready to learn more about our journey?
+          </p>
           <a href="/roadmap">
             <Button size="lg">
               Explore Our Roadmap

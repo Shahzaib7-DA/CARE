@@ -65,8 +65,10 @@ export function RiskIndicator({
         className={`w-4 h-4 rounded-full ${getIndicatorColor()}`}
       />
       <div>
-        <div className="text-sm font-semibold text-slate-900">{level}</div>
-        <div className="text-xs text-slate-500">
+        <div className="text-sm font-semibold text-slate-900 dark:text-white">
+          {level}
+        </div>
+        <div className="text-xs text-slate-500 dark:text-slate-300">
           {(score * 100).toFixed(0)}% risk
         </div>
       </div>

@@ -44,6 +44,7 @@ interface PatientStore {
   patients: Patient[]
   selectedPatient: Patient | null
   alerts: Alert[]
+  resolvedPatientIds: string[]
 
   setPatients: (patients: Patient[]) => void
   addPatient: (patient: Patient) => void
@@ -51,13 +52,15 @@ interface PatientStore {
   setSelectedPatient: (patient: Patient | null) => void
   setAlerts: (alerts: Alert[]) => void
   addAlert: (alert: Alert) => void
-  acknowledgeAlert: (alertId: string) => void
+  acknowledgeAlert: (alertId: string, treatmentNotes?: string) => void
+  markPatientResolved: (patientId: string) => void
 }
 
 export const usePatientStore = create<PatientStore>((set) => ({
   patients: [],
   selectedPatient: null,
   alerts: [],
+  resolvedPatientIds: [],
 
   setPatients: (patients) => set({ patients }),
   addPatient: (patient) =>
@@ -76,10 +79,23 @@ export const usePatientStore = create<PatientStore>((set) => ({
     set((state) => ({
       alerts: [alert, ...state.alerts],
     })),
-  acknowledgeAlert: (alertId) =>
+  acknowledgeAlert: (alertId, treatmentNotes) =>
     set((state) => ({
       alerts: state.alerts.map((a) =>
-        a.id === alertId ? { ...a, acknowledged: true } : a
+        a.id === alertId
+          ? {
+              ...a,
+              acknowledged: true,
+              ...(treatmentNotes ? { treatmentNotes } : {}),
+            }
+          : a
       ),
+    })),
+  markPatientResolved: (patientId) =>
+    set((state) => ({
+      resolvedPatientIds: state.resolvedPatientIds.includes(patientId)
+        ? state.resolvedPatientIds
+        : [...state.resolvedPatientIds, patientId],
+      alerts: state.alerts.filter((a) => a.patient_id !== patientId),
     })),
 }))

@@ -100,17 +100,17 @@ const itemVariants = {
 
 export function RoadmapPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <Navbar />
 
       {/* HERO */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-gradient-to-b from-slate-50 to-white">
+      <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
         <div className="max-w-5xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold text-slate-900 mb-4"
+            className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4"
           >
             Built to Evolve
           </motion.h1>
@@ -118,7 +118,7 @@ export function RoadmapPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-xl md:text-2xl text-slate-600"
+            className="text-xl md:text-2xl text-slate-600 dark:text-slate-300"
           >
             Healthcare is dynamic. So is our AI.
           </motion.p>
@@ -137,24 +137,24 @@ export function RoadmapPage() {
           >
             {ROADMAP_ITEMS.map((item, index) => (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="h-full border border-slate-200 hover:border-medical-blue/30 hover:shadow-lg transition-all duration-300 group">
+                <Card className="h-full border border-slate-200 dark:border-slate-700 hover:border-medical-blue/30 hover:shadow-lg transition-all duration-300 group">
                   <div className="p-8 h-full flex flex-col">
                     {/* Icon Container */}
                     <motion.div
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-14 h-14 bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl flex items-center justify-center mb-6 text-medical-blue group-hover:from-blue-100 group-hover:to-blue-50 transition-colors"
+                      className="w-14 h-14 bg-gradient-to-br from-blue-50 to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-xl flex items-center justify-center mb-6 text-medical-blue group-hover:from-blue-100 group-hover:to-blue-50 dark:group-hover:from-slate-700 dark:group-hover:to-slate-800 transition-colors"
                     >
                       {item.icon}
                     </motion.div>
 
                     {/* Title */}
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{item.title}</h3>
 
                     {/* Description */}
-                    <p className="text-slate-600 mb-6 flex-1">{item.description}</p>
+                    <p className="text-slate-600 dark:text-slate-300 mb-6 flex-1">{item.description}</p>
 
                     {/* Details */}
-                    <div className="space-y-3 pt-6 border-t border-slate-200">
+                    <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-slate-700">
                       {item.details.map((detail, i) => (
                         <motion.p
                           key={i}
@@ -162,7 +162,7 @@ export function RoadmapPage() {
                           whileInView={{ opacity: 1, x: 0 }}
                           transition={{ delay: i * 0.1 }}
                           viewport={{ once: true }}
-                          className="text-sm text-slate-600 flex items-start gap-2"
+                          className="text-sm text-slate-600 dark:text-slate-300 flex items-start gap-2"
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-medical-blue mt-1.5 flex-shrink-0" />
                           {detail}
@@ -178,7 +178,7 @@ export function RoadmapPage() {
       </section>
 
       {/* VISION STATEMENT */}
-      <section className="py-20 md:py-28 px-6 bg-gradient-to-b from-slate-50 to-white">
+      <section className="py-20 md:py-28 px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -189,12 +189,12 @@ export function RoadmapPage() {
           >
             {/* Main Quote */}
             <blockquote>
-              <motion.p
+                <motion.p
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="text-3xl md:text-5xl font-bold text-slate-900 leading-tight"
+                  className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight"
               >
                 The future of healthcare AI is not just smarter —
                 <motion.span
@@ -215,14 +215,14 @@ export function RoadmapPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
-              className="bg-blue-50 border border-blue-200 rounded-xl p-8 mt-8"
+              className="bg-blue-50 dark:bg-slate-900 border border-blue-200 dark:border-slate-700 rounded-xl p-8 mt-8"
             >
-              <p className="text-lg text-slate-700 leading-relaxed">
+              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                 We believe that great AI in healthcare isn't about building the most sophisticated model — it's about
                 <span className="font-semibold"> building trust</span>. Trust in the predictions. Trust in the
                 reasoning. Trust that your patients are in safe hands.
               </p>
-              <p className="text-lg text-slate-700 leading-relaxed mt-4">
+              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mt-4">
                 Every feature we add, every improvement we make, is guided by this north star: making our AI more
                 explainable, more fair, and more deployable in the real world.
               </p>
@@ -241,8 +241,8 @@ export function RoadmapPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Development Phases</h2>
-            <p className="text-lg text-slate-600">Our commitment to continuous improvement</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Development Phases</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-300">Our commitment to continuous improvement</p>
           </motion.div>
 
           <motion.div
@@ -288,11 +288,11 @@ export function RoadmapPage() {
               },
             ].map((phase, i) => (
               <motion.div key={i} variants={itemVariants}>
-                <div className={`bg-gradient-to-r ${phase.color} border border-slate-200 rounded-xl p-8 hover:shadow-lg transition-shadow`}>
+                <div className={`bg-gradient-to-r ${phase.color} border border-slate-200 dark:border-slate-700 rounded-xl p-8 hover:shadow-lg transition-shadow dark:bg-slate-900`}>
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <span className="text-sm font-semibold text-medical-blue">{phase.phase}</span>
-                      <h3 className="text-2xl font-bold text-slate-900 mt-1">{phase.title}</h3>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{phase.title}</h3>
                     </div>
                     <span className={`px-4 py-2 rounded-full text-sm font-medium ${
                       phase.status === '✓ Live'
@@ -304,9 +304,9 @@ export function RoadmapPage() {
                       {phase.status}
                     </span>
                   </div>
-                  <ul className="space-y-2">
+                    <ul className="space-y-2">
                     {phase.details.map((detail, j) => (
-                      <li key={j} className="text-slate-700 flex items-center gap-2">
+                      <li key={j} className="text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-medical-blue flex-shrink-0" />
                         {detail}
                       </li>
@@ -320,7 +320,7 @@ export function RoadmapPage() {
       </section>
 
       {/* CLOSING CTA */}
-      <section className="py-20 md:py-28 px-6 bg-gradient-to-r from-medical-blue/10 to-blue-50">
+      <section className="py-20 md:py-28 px-6 bg-gradient-to-r from-medical-blue/10 to-blue-50 dark:from-slate-900 dark:to-slate-900">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -329,10 +329,10 @@ export function RoadmapPage() {
             viewport={{ once: true }}
             className="space-y-6"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
               Join Us on This Journey
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
               We're building the future of clinical AI together with hospitals, clinicians, and researchers worldwide.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">

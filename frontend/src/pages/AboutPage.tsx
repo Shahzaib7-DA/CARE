@@ -48,11 +48,11 @@ export function AboutPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <Navbar />
 
       {/* HERO */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-gradient-to-b from-slate-50 to-white">
+      <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
         <div className="max-w-5xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -66,7 +66,7 @@ export function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto"
+            className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto"
           >
             We're a team of healthcare innovators, researchers, and clinicians building the future of patient safety through
             intelligent AI monitoring.
@@ -82,15 +82,15 @@ export function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-12 border border-blue-200/50"
+            className="bg-gradient-to-br from-blue-50 to-slate-50 dark:from-slate-900 dark:to-slate-900 rounded-2xl p-12 border border-blue-200/50 dark:border-slate-700"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Mission</h2>
-            <p className="text-lg text-slate-700 leading-relaxed mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">Our Mission</h2>
+            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
               To save lives by bringing predictive intelligence to hospitals worldwide. We believe that with the right AI
               tools, clinicians can catch deterioration earlier, make smarter decisions faster, and ultimately deliver better
               outcomes for their patients.
             </p>
-            <p className="text-lg text-slate-700 leading-relaxed">
+            <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
               Every hospital deserves access to world-class AI monitoring — not just the ones with massive IT budgets. That's
               why we're building solutions that are intelligent, explainable, and truly deployable.
             </p>
@@ -99,7 +99,7 @@ export function AboutPage() {
       </section>
 
       {/* VALUES */}
-      <section className="py-20 md:py-28 px-6 bg-slate-50">
+      <section className="py-20 md:py-28 px-6 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -108,8 +108,8 @@ export function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Our Values</h2>
-            <p className="text-lg text-slate-600">Guiding our every product decision</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Our Values</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-300">Guiding our every product decision</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -125,12 +125,12 @@ export function AboutPage() {
                   <div className="p-8">
                     <motion.div
                       whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center mb-4"
+                      className="w-14 h-14 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center mb-4"
                     >
                       {value.icon}
                     </motion.div>
-                    <h3 className="text-2xl font-bold text-slate-900 mb-2">{value.title}</h3>
-                    <p className="text-slate-600">{value.description}</p>
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{value.title}</h3>
+                    <p className="text-slate-600 dark:text-slate-300">{value.description}</p>
                   </div>
                 </Card>
               </motion.div>
@@ -149,8 +149,8 @@ export function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Leadership Team</h2>
-            <p className="text-lg text-slate-600">Decades of combined healthcare and AI expertise</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Leadership Team</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-300">Decades of combined healthcare and AI expertise</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -164,9 +164,9 @@ export function AboutPage() {
               >
                 <Card className="hover:shadow-lg transition-shadow">
                   <div className="p-8">
-                    <div className="w-16 h-16 bg-gradient-to-br from-medical-blue/20 to-blue-100 rounded-full mb-4" />
-                    <h3 className="text-xl font-bold text-slate-900 mb-1">{member.role}</h3>
-                    <p className="text-slate-600">{member.description}</p>
+                    <div className="w-16 h-16 bg-gradient-to-br from-medical-blue/20 to-blue-100 dark:from-medical-blue/40 dark:to-blue-900 rounded-full mb-4" />
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{member.role}</h3>
+                    <p className="text-slate-600 dark:text-slate-300">{member.description}</p>
                   </div>
                 </Card>
               </motion.div>
@@ -176,7 +176,7 @@ export function AboutPage() {
       </section>
 
       {/* STATS */}
-      <section className="py-20 md:py-28 px-6 bg-gradient-to-r from-medical-blue/5 to-blue-50">
+      <section className="py-20 md:py-28 px-6 bg-gradient-to-r from-medical-blue/5 to-blue-50 dark:from-slate-900 dark:to-slate-900">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
@@ -193,8 +193,8 @@ export function AboutPage() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <h3 className="text-4xl font-bold text-medical-blue mb-2">{stat.number}</h3>
-                <p className="text-slate-600">{stat.label}</p>
+                <h3 className="text-4xl font-bold text-medical-blue dark:text-blue-300 mb-2">{stat.number}</h3>
+                <p className="text-slate-600 dark:text-slate-300">{stat.label}</p>
               </motion.div>
             ))}
           </div>

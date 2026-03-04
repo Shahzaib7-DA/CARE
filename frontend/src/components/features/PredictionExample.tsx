@@ -42,8 +42,8 @@ export const PredictionExample: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto p-4 space-y-4">
-      <div className="bg-white rounded-lg border border-slate-200 p-4">
-        <h3 className="font-semibold text-lg mb-4">Test Prediction API</h3>
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
+        <h3 className="font-semibold text-lg mb-4 text-slate-900 dark:text-white">Test Prediction API</h3>
 
         <button
           onClick={handlePredict}
@@ -64,16 +64,16 @@ export const PredictionExample: React.FC = () => {
         </button>
 
         {error && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-red-700">{error}</div>
+          <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg flex items-start gap-2">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-300 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-red-700 dark:text-red-200">{error}</div>
           </div>
         )}
 
         {result && (
-          <div className="mt-4 space-y-3 bg-slate-50 rounded-lg p-3 border border-slate-200">
+          <div className="mt-4 space-y-3 bg-slate-50 dark:bg-slate-900 rounded-lg p-3 border border-slate-200 dark:border-slate-700">
             <div className="flex justify-between text-sm">
-              <span className="text-slate-600">Risk Level:</span>
+              <span className="text-slate-600 dark:text-slate-300">Risk Level:</span>
               <span
                 className={`font-semibold ${
                   result.risk_level === 'RED'
@@ -87,19 +87,23 @@ export const PredictionExample: React.FC = () => {
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-slate-600">Sepsis Risk:</span>
-              <span className="font-semibold">{(result.sepsis_risk * 100).toFixed(1)}%</span>
+              <span className="text-slate-600 dark:text-slate-300">Sepsis Risk:</span>
+              <span className="font-semibold text-slate-900 dark:text-white">
+                {(result.sepsis_risk * 100).toFixed(1)}%
+              </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-slate-600">Pattern Score:</span>
-              <span className="font-semibold">{(result.pattern_score * 100).toFixed(1)}%</span>
+              <span className="text-slate-600 dark:text-slate-300">Pattern Score:</span>
+              <span className="font-semibold text-slate-900 dark:text-white">
+                {(result.pattern_score * 100).toFixed(1)}%
+              </span>
             </div>
-            {result.reasons.length > 0 && (
-              <div className="text-sm">
-                <span className="text-slate-600">Reasons:</span>
+              {result.reasons.length > 0 && (
+                <div className="text-sm">
+                  <span className="text-slate-600 dark:text-slate-300">Reasons:</span>
                 <ul className="mt-1 space-y-1">
                   {result.reasons.map((reason) => (
-                    <li key={reason} className="text-slate-700 ml-2">
+                    <li key={reason} className="text-slate-700 dark:text-slate-200 ml-2">
                       • {reason}
                     </li>
                   ))}

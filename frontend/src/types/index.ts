@@ -41,6 +41,7 @@ export interface Alert {
   message: string
   timestamp: string
   acknowledged: boolean
+  treatmentNotes?: string
 }
 
 export interface DashboardStats {

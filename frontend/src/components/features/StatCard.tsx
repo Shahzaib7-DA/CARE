@@ -28,13 +28,13 @@ export function StatCard({
   const getVariantColor = () => {
     switch (variant) {
       case 'critical':
-        return 'border-red-200 bg-red-50'
+        return 'border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-900/30'
       case 'warning':
-        return 'border-yellow-200 bg-yellow-50'
+        return 'border-yellow-200 bg-yellow-50 dark:border-yellow-900 dark:bg-yellow-900/30'
       case 'success':
-        return 'border-green-200 bg-green-50'
+        return 'border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-900/30'
       default:
-        return 'border-slate-200 bg-white'
+        return 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800'
     }
   }
 
@@ -65,14 +65,16 @@ export function StatCard({
         <CardContent className="pt-6">
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <p className="text-sm font-medium text-slate-600">{label}</p>
+              <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                {label}
+              </p>
               <motion.div
-                className="mt-2 text-3xl font-bold text-slate-900"
+                className="mt-2 text-3xl font-bold text-slate-900 dark:text-white"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
                 {isLoading ? (
-                  <div className="h-8 bg-slate-200 rounded animate-pulse w-20" />
+                  <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse w-20" />
                 ) : (
                   animatedValue
                 )}
