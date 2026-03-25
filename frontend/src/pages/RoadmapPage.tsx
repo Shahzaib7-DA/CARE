@@ -1,353 +1,365 @@
-import { motion } from 'framer-motion'
-import { CheckCircle, Zap, Eye, Lock, MapPin, Globe } from 'lucide-react'
+import { motion, useScroll, useSpring, useInView } from 'framer-motion'
+import React, { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { Navbar } from '@/components/landing/Navbar'
 import { Footer } from '@/components/landing/Footer'
-import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import {
+  Zap,
+  Eye,
+  BarChart3,
+  ShieldCheck,
+  MapPin,
+  Globe,
+} from 'lucide-react'
 
-interface RoadmapItem {
-  icon: React.ReactNode
-  title: string
-  description: string
-  details: string[]
-}
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
 
-const ROADMAP_ITEMS: RoadmapItem[] = [
+const features = [
   {
-    icon: <Zap className="w-8 h-8" />,
+    icon: <Zap className="w-6 h-6" />,
     title: 'Smarter Alerts',
-    description: 'Reducing unnecessary noise and prioritizing truly critical patients.',
-    details: [
-      'Intelligent thresholding that adapts to patient baseline',
-      'Context-aware alert suppression',
-      'Noise reduction without sacrificing sensitivity',
-    ],
+    description:
+      'Reducing unnecessary noise and prioritizing truly critical patients.',
+    tag: 'In Progress',
   },
   {
-    icon: <Eye className="w-8 h-8" />,
+    icon: <Eye className="w-6 h-6" />,
     title: 'Greater Transparency',
     description: 'Clear reasoning behind every prediction.',
-    details: [
-      'Detailed clinical factor breakdown',
-      'Temporal visualization of risk drivers',
-      'Feature importance scoring for each patient',
-    ],
+    tag: 'Planned',
   },
   {
-    icon: <CheckCircle className="w-8 h-8" />,
+    icon: <BarChart3 className="w-6 h-6" />,
     title: 'Confidence-Aware Risk Scores',
     description: 'Not just predictions — but how certain we are.',
-    details: [
-      'Bayesian uncertainty quantification',
-      'Confidence intervals on predictions',
-      'Trusted vs. exploratory recommendations',
-    ],
+    tag: 'Planned',
   },
   {
-    icon: <Lock className="w-8 h-8" />,
+    icon: <ShieldCheck className="w-6 h-6" />,
     title: 'Responsible AI',
     description: 'Fair, performance-monitored, and privacy-conscious.',
-    details: [
-      'Bias detection and mitigation',
-      'HIPAA-compliant data handling',
-      'Continuous fairness audits',
-    ],
+    tag: 'In Progress',
   },
   {
-    icon: <MapPin className="w-8 h-8" />,
+    icon: <MapPin className="w-6 h-6" />,
     title: 'Real-World Reliability',
     description: 'Designed to adapt across different hospital environments.',
-    details: [
-      'Multi-site validation and testing',
-      'Environment-specific calibration',
-      'Robust inter-hospital generalization',
-    ],
+    tag: 'Planned',
   },
   {
-    icon: <Globe className="w-8 h-8" />,
+    icon: <Globe className="w-6 h-6" />,
     title: 'Expanding Accessibility',
     description: 'Scalable for both advanced hospitals and emerging regions.',
-    details: [
-      'Low-bandwidth deployment options',
-      'Offline-capable architecture',
-      'Multi-language support and localization',
+    tag: 'Planned',
+  },
+]
+
+const phases = [
+  {
+    label: 'Phase 1: Now',
+    title: 'Core Prediction Engine',
+    status: 'Live',
+    items: [],
+  },
+  {
+    label: 'Phase 2: Next',
+    title: 'Enhanced Clinical Intelligence',
+    status: 'In Progress',
+    items: ['Confidence scoring', 'Explainable AI', 'Risk trend tracking'],
+  },
+  {
+    label: 'Phase 3: Future',
+    title: 'Hospital-Scale Deployment',
+    status: 'Planned',
+    items: [
+      'Continuous monitoring',
+      'Adaptive thresholds',
+      'Privacy-preserving learning',
     ],
   },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
+/* ------------------------------------------------------------------ */
+/*  Sub-components                                                     */
+/* ------------------------------------------------------------------ */
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+  tag,
+  index,
+}: {
+  icon: React.ReactNode
+  title: string
+  description: string
+  tag: string
+  index: number
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{
+        duration: 0.6,
+        delay: (index % 3) * 0.12,
+        ease: [0.215, 0.61, 0.355, 1],
+      }}
+      whileHover={{ scale: 1.03, y: -4 }}
+      className="group relative flex flex-col h-full p-8 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-xl border border-white/20 dark:border-slate-700/40 shadow-md hover:shadow-xl transition-shadow duration-300"
+    >
+      {/* Tag */}
+      <span
+        className={`absolute top-4 right-4 text-[11px] font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-full ${
+          tag === 'In Progress'
+            ? 'bg-teal-100 text-teal-700 dark:bg-teal-900/60 dark:text-teal-300'
+            : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+        }`}
+      >
+        {tag}
+      </span>
+
+      {/* Icon */}
+      <div className="w-12 h-12 bg-teal-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-teal-600 dark:text-teal-400 mb-6 group-hover:bg-teal-100 dark:group-hover:bg-slate-700 transition-colors">
+        {icon}
+      </div>
+
+      <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-100">
+        {title}
+      </h3>
+      <p className="text-slate-600 dark:text-slate-300 mt-3 flex-1 leading-relaxed">
+        {description}
+      </p>
+
+      {/* Accent bar */}
+      <div className="mt-6 h-1 w-8 bg-teal-500 rounded-full" />
+    </motion.div>
+  )
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 12,
-    },
-  },
+/* ------------------------------------------------------------------ */
+
+function TimelineSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.4 })
+
+  const statusColor: Record<string, string> = {
+    Live: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
+    'In Progress':
+      'bg-teal-100 text-teal-700 dark:bg-teal-900/50 dark:text-teal-300',
+    Planned:
+      'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400',
+  }
+
+  return (
+    <section
+      ref={ref}
+      className="relative max-w-5xl mx-auto py-24 px-6"
+    >
+      {/* Heading */}
+      <div className="text-center mb-16">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4"
+        >
+          Development Timeline
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-lg text-slate-600 dark:text-slate-300"
+        >
+          A phased approach to building trusted clinical AI
+        </motion.p>
+      </div>
+
+      {/* Horizontal connector (desktop) */}
+      <div className="absolute top-[60%] left-6 right-6 h-[2px] bg-slate-200 dark:bg-slate-700 -translate-y-1/2 hidden md:block" />
+      <motion.div
+        initial={{ width: 0 }}
+        animate={isInView ? { width: '100%' } : {}}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
+        className="absolute top-[60%] left-6 h-[2px] bg-teal-500 -translate-y-1/2 z-10 hidden md:block"
+        style={{ maxWidth: 'calc(100% - 3rem)' }}
+      />
+
+      {/* Phase cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-20">
+        {phases.map((phase, i) => (
+          <motion.div
+            key={phase.label}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.4 + i * 0.25, duration: 0.5 }}
+            className="bg-white dark:bg-slate-800 border-2 border-teal-500/60 dark:border-teal-500/40 p-6 rounded-2xl shadow-lg flex flex-col items-center text-center"
+          >
+            {/* Phase label */}
+            <span className="font-bold text-teal-600 dark:text-teal-400 text-lg mb-1">
+              {phase.label}
+            </span>
+
+            {/* Title */}
+            <span className="text-slate-800 dark:text-slate-200 font-medium mb-3">
+              {phase.title}
+            </span>
+
+            {/* Status badge */}
+            <span
+              className={`px-3 py-0.5 text-sm font-medium rounded-full mb-4 ${statusColor[phase.status]}`}
+            >
+              {phase.status}
+            </span>
+
+            {/* Bullet items */}
+            {phase.items.length > 0 && (
+              <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1 text-left w-full mt-2">
+                {phase.items.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-teal-500 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  )
 }
+
+/* ------------------------------------------------------------------ */
+
+function TrustSection() {
+  return (
+    <section className="text-center py-24 px-6 max-w-4xl mx-auto">
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="text-2xl md:text-3xl lg:text-4xl text-slate-700 dark:text-slate-300 italic leading-relaxed font-light"
+      >
+        "The future of healthcare AI is not just smarter — it is safer, more
+        transparent, and built for real clinical environments."
+      </motion.p>
+    </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
 
 export function RoadmapPage() {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  })
+
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+    <div className="relative min-h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden font-sans selection:bg-teal-100">
       <Navbar />
 
-      {/* HERO */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-        <div className="max-w-5xl mx-auto text-center">
+      {/* Scroll progress bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-teal-500 origin-left z-50"
+        style={{ scaleX }}
+      />
+
+      {/* Subtle animated background */}
+      <div className="absolute inset-0 -z-10 mt-16 pointer-events-none">
+        <motion.div
+          animate={{
+            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-0 opacity-30 blur-[100px] bg-[linear-gradient(270deg,#e0f2fe,#f0fdf4,#f1f5f9)] dark:bg-[linear-gradient(270deg,#0f172a,#064e3b,#0f172a)] bg-[length:400%_400%]"
+        />
+      </div>
+
+      <div className="pt-16">
+        {/* ── HERO ── */}
+        <section className="pt-32 pb-20 px-6 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-4"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white tracking-tight"
           >
             Built to Evolve
           </motion.h1>
+
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-xl md:text-2xl text-slate-600 dark:text-slate-300"
+            transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
+            className="mt-5 text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto"
           >
             Healthcare is dynamic. So is our AI.
           </motion.p>
-        </div>
-      </section>
 
-      {/* ROADMAP GRID */}
-      <section className="py-20 md:py-28 px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
+            className="mt-4 text-base md:text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto"
           >
-            {ROADMAP_ITEMS.map((item, index) => (
-              <motion.div key={index} variants={itemVariants}>
-                <Card className="h-full border border-slate-200 dark:border-slate-700 hover:border-medical-blue/30 hover:shadow-lg transition-all duration-300 group">
-                  <div className="p-8 h-full flex flex-col">
-                    {/* Icon Container */}
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="w-14 h-14 bg-gradient-to-br from-blue-50 to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-xl flex items-center justify-center mb-6 text-medical-blue group-hover:from-blue-100 group-hover:to-blue-50 dark:group-hover:from-slate-700 dark:group-hover:to-slate-800 transition-colors"
-                    >
-                      {item.icon}
-                    </motion.div>
+            We are continuously improving how AI supports clinical decisions.
+          </motion.p>
+        </section>
 
-                    {/* Title */}
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{item.title}</h3>
+        {/* ── FEATURE GRID ── */}
+        <section className="max-w-6xl mx-auto py-20 px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((f, i) => (
+            <FeatureCard key={f.title} {...f} index={i} />
+          ))}
+        </section>
 
-                    {/* Description */}
-                    <p className="text-slate-600 dark:text-slate-300 mb-6 flex-1">{item.description}</p>
+        {/* ── TIMELINE ── */}
+        <TimelineSection />
 
-                    {/* Details */}
-                    <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-slate-700">
-                      {item.details.map((detail, i) => (
-                        <motion.p
-                          key={i}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                          viewport={{ once: true }}
-                          className="text-sm text-slate-600 dark:text-slate-300 flex items-start gap-2"
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-medical-blue mt-1.5 flex-shrink-0" />
-                          {detail}
-                        </motion.p>
-                      ))}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+        {/* ── TRUST STATEMENT ── */}
+        <TrustSection />
 
-      {/* VISION STATEMENT */}
-      <section className="py-20 md:py-28 px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center space-y-8"
-          >
-            {/* Main Quote */}
-            <blockquote>
-                <motion.p
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
-                  className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight"
-              >
-                The future of healthcare AI is not just smarter —
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  viewport={{ once: true }}
-                  className="block text-transparent bg-clip-text bg-gradient-to-r from-medical-blue to-blue-400 mt-3"
-                >
-                  it is safer, fairer, and truly deployable.
-                </motion.span>
-              </motion.p>
-            </blockquote>
-
-            {/* Supporting Text */}
+        {/* ── CTA ── */}
+        <section className="flex flex-col sm:flex-row justify-center items-center gap-4 pb-32 px-6">
+          <Link to="/dashboard">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="bg-blue-50 dark:bg-slate-900 border border-blue-200 dark:border-slate-700 rounded-xl p-8 mt-8"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 20px 40px rgba(14, 165, 233, 0.2)',
+              }}
+              whileTap={{ scale: 0.97 }}
             >
-              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-                We believe that great AI in healthcare isn't about building the most sophisticated model — it's about
-                <span className="font-semibold"> building trust</span>. Trust in the predictions. Trust in the
-                reasoning. Trust that your patients are in safe hands.
-              </p>
-              <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mt-4">
-                Every feature we add, every improvement we make, is guided by this north star: making our AI more
-                explainable, more fair, and more deployable in the real world.
-              </p>
+              <Button size="lg">Start Using CareMind</Button>
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
+          </Link>
 
-      {/* TIMELINE / PHASES */}
-      <section className="py-20 md:py-28 px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Development Phases</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300">Our commitment to continuous improvement</p>
-          </motion.div>
+          <a href="mailto:info@caremind.com">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <Button variant="outline" size="lg">
+                Contact Us
+              </Button>
+            </motion.div>
+          </a>
+        </section>
+      </div>
 
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
-            className="space-y-8"
-          >
-            {[
-              {
-                phase: 'Phase 1: Now',
-                title: 'Core Prediction Engine',
-                status: '✓ Live',
-                color: 'from-green-50 to-emerald-50',
-                details: [
-                  'LSTM + XGBoost hybrid models',
-                  'Real-time risk scoring',
-                  'Clinical validation complete',
-                ],
-              },
-              {
-                phase: 'Phase 2: Q2 2026',
-                title: 'Enhanced Interpretability',
-                status: 'In Progress',
-                color: 'from-blue-50 to-cyan-50',
-                details: [
-                  'Confidence intervals on predictions',
-                  'Feature contribution analysis',
-                  'Temporal risk tracking',
-                ],
-              },
-              {
-                phase: 'Phase 3: Q4 2026',
-                title: 'Multi-Hospital Deployment',
-                status: 'Planned',
-                color: 'from-purple-50 to-indigo-50',
-                details: [
-                  'Cross-site model validation',
-                  'Bias detection framework',
-                  'Privacy-preserving analytics',
-                ],
-              },
-            ].map((phase, i) => (
-              <motion.div key={i} variants={itemVariants}>
-                <div className={`bg-gradient-to-r ${phase.color} border border-slate-200 dark:border-slate-700 rounded-xl p-8 hover:shadow-lg transition-shadow dark:bg-slate-900`}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <span className="text-sm font-semibold text-medical-blue">{phase.phase}</span>
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{phase.title}</h3>
-                    </div>
-                    <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                      phase.status === '✓ Live'
-                        ? 'bg-green-100 text-green-800'
-                        : phase.status === 'In Progress'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-slate-200 text-slate-800'
-                    }`}>
-                      {phase.status}
-                    </span>
-                  </div>
-                    <ul className="space-y-2">
-                    {phase.details.map((detail, j) => (
-                      <li key={j} className="text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-medical-blue flex-shrink-0" />
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CLOSING CTA */}
-      <section className="py-20 md:py-28 px-6 bg-gradient-to-r from-medical-blue/10 to-blue-50 dark:from-slate-900 dark:to-slate-900">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">
-              Join Us on This Journey
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              We're building the future of clinical AI together with hospitals, clinicians, and researchers worldwide.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-              <a href="/dashboard" className="px-8 py-3 bg-medical-blue text-white rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                Start Using CareMind
-              </a>
-              <a href="mailto:info@caremind.com" className="px-8 py-3 border-2 border-medical-blue text-medical-blue rounded-lg hover:bg-blue-50 transition-colors font-medium">
-                Get in Touch
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
       <Footer />
     </div>
   )

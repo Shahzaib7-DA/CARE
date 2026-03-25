@@ -3,19 +3,16 @@ import { useSettingsStore } from '@/store'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
-import { Toggle, Sliders } from 'lucide-react'
 
 export function SettingsPage() {
   const {
     demoMode,
     riskThresholds,
     alertsEnabled,
-    darkMode,
     autoRefresh,
     setDemoMode,
     setThresholds,
     setAlertsEnabled,
-    setDarkMode,
     setAutoRefresh,
   } = useSettingsStore()
 
@@ -66,14 +63,12 @@ export function SettingsPage() {
               </div>
               <button
                 onClick={() => setDemoMode(!demoMode)}
-                className={`relative inline-flex h-8 w-14 rounded-full transition-colors ${
-                  demoMode ? 'bg-medical-blue' : 'bg-slate-200'
-                }`}
+                className={`relative inline-flex h-8 w-14 rounded-full transition-colors ${demoMode ? 'bg-medical-blue' : 'bg-slate-200'
+                  }`}
               >
                 <span
-                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                    demoMode ? 'translate-x-7' : 'translate-x-1'
-                  } mt-1`}
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${demoMode ? 'translate-x-7' : 'translate-x-1'
+                    } mt-1`}
                 />
               </button>
             </div>
@@ -90,14 +85,12 @@ export function SettingsPage() {
               </div>
               <button
                 onClick={() => setAutoRefresh(!autoRefresh)}
-                className={`relative inline-flex h-8 w-14 rounded-full transition-colors ${
-                  autoRefresh ? 'bg-medical-blue' : 'bg-slate-200'
-                }`}
+                className={`relative inline-flex h-8 w-14 rounded-full transition-colors ${autoRefresh ? 'bg-medical-blue' : 'bg-slate-200'
+                  }`}
               >
                 <span
-                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                    autoRefresh ? 'translate-x-7' : 'translate-x-1'
-                  } mt-1`}
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${autoRefresh ? 'translate-x-7' : 'translate-x-1'
+                    } mt-1`}
                 />
               </button>
             </div>
@@ -114,14 +107,12 @@ export function SettingsPage() {
               </div>
               <button
                 onClick={() => setAlertsEnabled(!alertsEnabled)}
-                className={`relative inline-flex h-8 w-14 rounded-full transition-colors ${
-                  alertsEnabled ? 'bg-medical-blue' : 'bg-slate-200'
-                }`}
+                className={`relative inline-flex h-8 w-14 rounded-full transition-colors ${alertsEnabled ? 'bg-medical-blue' : 'bg-slate-200'
+                  }`}
               >
                 <span
-                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
-                    alertsEnabled ? 'translate-x-7' : 'translate-x-1'
-                  } mt-1`}
+                  className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${alertsEnabled ? 'translate-x-7' : 'translate-x-1'
+                    } mt-1`}
                 />
               </button>
             </div>
@@ -248,15 +239,15 @@ export function SettingsPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <Card className="bg-slate-50 dark:bg-slate-900">
+        <Card className="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700">
           <CardContent className="pt-6">
             <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">
               CareMind Clinical Risk Dashboard
             </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            <p className="text-sm text-slate-600 dark:text-slate-300">
               Version 1.0.0 • AI-powered sepsis risk monitoring system
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-500 mt-3">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-3">
               © 2026 CareMind Health Systems. All rights reserved.
             </p>
           </CardContent>

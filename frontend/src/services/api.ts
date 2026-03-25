@@ -248,19 +248,19 @@ const MOCK_PATIENTS: Patient[] = [
   },
 ]
 
-// Data service (mock or real)
+// Data service (real backend with mock fallback)
 export const dataService = {
   async getPatients(riskLevel?: string): Promise<Patient[]> {
     try {
-      // Try to call backend first
-      // For now, return mock data
-      if (riskLevel) {
-        return MOCK_PATIENTS.filter((p) => p.risk_level === riskLevel)
+      // Call real backend endpoint
+      const response = await fetchAPI<{ success: boolean; data: Patient[] }>('/api/patients' + (riskLevel ? `?risk_level=${riskLevel}` : ''))
+      if (response.success && response.data) {
+        return response.data
       }
-      return MOCK_PATIENTS
+      throw new Error('Invalid response format')
     } catch (error) {
-      console.error('Failed to fetch patients:', error)
-      // Fallback to mock data
+      // Fallback to mock data when backend is unavailable
+      console.warn('Backend unavailable, using mock patient data:', error)
       if (riskLevel) {
         return MOCK_PATIENTS.filter((p) => p.risk_level === riskLevel)
       }
@@ -269,17 +269,35 @@ export const dataService = {
   },
 
   async getPatient(patientId: string): Promise<Patient | null> {
-    const patient = MOCK_PATIENTS.find((p) => p.patient_id === patientId)
-    return patient || null
+    try {
+      const response = await fetchAPI<{ success: boolean; data: Patient }>(`/api/patients/${patientId}`)
+      if (response.success && response.data) {
+        return response.data
+      }
+      throw new Error('Invalid response format')
+    } catch (error) {
+      console.warn('Backend unavailable, using mock patient:', error)
+      const patient = MOCK_PATIENTS.find((p) => p.patient_id === patientId)
+      return patient || null
+    }
   },
 
   async getDashboardStats(): Promise<DashboardStats> {
-    const patients = MOCK_PATIENTS
-    return {
-      total_patients: patients.length,
-      critical_patients: patients.filter((p) => p.risk_level === 'RED').length,
-      warning_patients: patients.filter((p) => p.risk_level === 'YELLOW').length,
-      stable_patients: patients.filter((p) => p.risk_level === 'GREEN').length,
+    try {
+      const response = await fetchAPI<{ success: boolean; data: DashboardStats }>('/api/dashboard/stats')
+      if (response.success && response.data) {
+        return response.data
+      }
+      throw new Error('Invalid response format')
+    } catch (error) {
+      console.warn('Backend unavailable, computing stats from mock data:', error)
+      const patients = MOCK_PATIENTS
+      return {
+        total_patients: patients.length,
+        critical_patients: patients.filter((p) => p.risk_level === 'RED').length,
+        warning_patients: patients.filter((p) => p.risk_level === 'YELLOW').length,
+        stable_patients: patients.filter((p) => p.risk_level === 'GREEN').length,
+      }
     }
   },
 }

@@ -33,6 +33,10 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-6 text-sm font-medium">
+            <Link to="/about" className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">About</Link>
+            <Link to="/roadmap" className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">Roadmap</Link>
+          </div>
           <div className="flex items-center gap-3">
             {/* theme toggle */}
             <button
@@ -83,6 +87,16 @@ export function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden bg-white dark:bg-slate-800 border-t border-slate-200/50 p-4 space-y-4">
+          {/* Page links */}
+          <div className="space-y-1">
+            <Link to="/about" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors font-medium">
+              About
+            </Link>
+            <Link to="/roadmap" onClick={() => setMobileOpen(false)} className="block px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors font-medium">
+              Roadmap
+            </Link>
+          </div>
+
           {/* theme toggle */}
           <button
             onClick={() => { toggle(); setMobileOpen(false); }}

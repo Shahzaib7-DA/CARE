@@ -22,6 +22,10 @@ export interface Patient {
   name: string
   age: number
   bed_number: string
+  /**
+   * Tracks whether patient is still active, treated, or recovering to stability.
+   */
+  status?: 'active' | 'treated' | 'recovering' | 'stable'
 }
 
 export interface PredictionResponse {

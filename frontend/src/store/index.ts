@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Patient, Alert, RiskLevel } from '@/types'
+import type { Patient, Alert } from '@/types'
 
 interface SettingsStore {
   demoMode: boolean
@@ -54,6 +54,11 @@ interface PatientStore {
   addAlert: (alert: Alert) => void
   acknowledgeAlert: (alertId: string, treatmentNotes?: string) => void
   markPatientResolved: (patientId: string) => void
+  /**
+   * Mark the given patient as treated (status change).
+   * This is used by the alerts page and dashboard widgets in the new prototype flow.
+   */
+  markPatientTreated: (patientId: string) => void
 }
 
 export const usePatientStore = create<PatientStore>((set) => ({
@@ -65,7 +70,11 @@ export const usePatientStore = create<PatientStore>((set) => ({
   setPatients: (patients) => set({ patients }),
   addPatient: (patient) =>
     set((state) => ({
-      patients: [patient, ...state.patients],
+      patients: [
+        // ensure new patients default to active status when not provided
+        { status: 'active', ...patient },
+        ...state.patients,
+      ],
     })),
   updatePatient: (patientId, updates) =>
     set((state) => ({
@@ -93,6 +102,16 @@ export const usePatientStore = create<PatientStore>((set) => ({
     })),
   markPatientResolved: (patientId) =>
     set((state) => ({
+      resolvedPatientIds: state.resolvedPatientIds.includes(patientId)
+        ? state.resolvedPatientIds
+        : [...state.resolvedPatientIds, patientId],
+      alerts: state.alerts.filter((a) => a.patient_id !== patientId),
+    })),
+  markPatientTreated: (patientId) =>
+    set((state) => ({
+      patients: state.patients.map((p) =>
+        p.patient_id === patientId ? { ...p, status: 'treated' } : p
+      ),
       resolvedPatientIds: state.resolvedPatientIds.includes(patientId)
         ? state.resolvedPatientIds
         : [...state.resolvedPatientIds, patientId],

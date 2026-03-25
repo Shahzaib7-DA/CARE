@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { RiskLevel } from '@/types'
-import { getRiskBadgeColor, getRiskTextColor } from '@/lib/utils'
+import { getRiskBadgeColor } from '@/lib/utils'
 import { AlertCircle, TrendingUp } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 

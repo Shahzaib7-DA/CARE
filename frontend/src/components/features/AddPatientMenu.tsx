@@ -4,6 +4,7 @@ import { PatientAddForm, PatientFormData } from './PatientAddForm'
 
 interface AddPatientMenuProps {
   onAddText?: (data: PatientFormData) => void
+  isSubmitting?: boolean
   onAddVoice?: () => void
   onAddImage?: () => void
   onUploadDataset?: (files: FileList | null) => void
@@ -11,6 +12,7 @@ interface AddPatientMenuProps {
 
 export function AddPatientMenu({
   onAddText,
+  isSubmitting = false,
   onAddVoice,
   onAddImage,
   onUploadDataset,
@@ -18,7 +20,6 @@ export function AddPatientMenu({
   const [mainOpen, setMainOpen] = useState(false)
   const [subOpen, setSubOpen] = useState(false)
   const [showForm, setShowForm] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -48,19 +49,12 @@ export function AddPatientMenu({
   }
 
   const handleFormSubmit = async (data: PatientFormData) => {
-    setIsLoading(true)
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 800))
-      onAddText && onAddText(data)
-      setShowForm(false)
-      setMainOpen(false)
-      setSubOpen(false)
-    } catch (error) {
-      console.error('Error adding patient:', error)
-    } finally {
-      setIsLoading(false)
+    if (onAddText) {
+      await onAddText(data)
     }
+    setShowForm(false)
+    setMainOpen(false)
+    setSubOpen(false)
   }
 
   return (
@@ -132,14 +126,14 @@ export function AddPatientMenu({
         ref={fileInputRef}
         style={{ display: 'none' }}
         onChange={handleFileChange}
-        // allow multiple files if needed
+      // allow multiple files if needed
       />
 
       <PatientAddForm
         isOpen={showForm}
         onClose={() => setShowForm(false)}
         onSubmit={handleFormSubmit}
-        isLoading={isLoading}
+        isLoading={isSubmitting}
       />
     </div>
   )

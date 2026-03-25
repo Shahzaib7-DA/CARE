@@ -54,9 +54,10 @@ export function TrendChart({
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
+                backgroundColor: 'var(--tooltip-bg, #ffffff)',
+                border: '1px solid var(--tooltip-border, #e2e8f0)',
                 borderRadius: '8px',
+                color: 'var(--tooltip-text, #000000)',
               }}
               formatter={(value: number) => `${(value * 100).toFixed(0)}%`}
             />
@@ -115,9 +116,10 @@ export function VitalsChart({ data, title = 'Current Vitals' }: VitalsChartProps
             <YAxis stroke="#64748b" style={{ fontSize: '12px' }} />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#ffffff',
-                border: '1px solid #e2e8f0',
+                backgroundColor: 'var(--tooltip-bg, #ffffff)',
+                border: '1px solid var(--tooltip-border, #e2e8f0)',
                 borderRadius: '8px',
+                color: 'var(--tooltip-text, #000000)',
               }}
             />
             <Line

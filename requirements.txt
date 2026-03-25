@@ -1,0 +1,33 @@
+# Core Python libraries
+numpy
+pandas
+scipy
+
+# Machine Learning
+scikit-learn
+xgboost
+tensorflow
+
+# Data visualization
+matplotlib
+seaborn
+plotly
+
+# Web framework
+flask
+flask-cors
+fastapi
+uvicorn
+
+# Data processing
+joblib
+
+# Utilities
+python-dotenv
+requests
+pyyaml
+
+# Development tools
+pytest
+black
+flake8

@@ -11,10 +11,13 @@ import { LoginPage } from '@/pages/LoginPage'
 import { RoadmapPage } from '@/pages/RoadmapPage'
 import { AboutPage } from '@/pages/AboutPage'
 
+import { PatientProvider } from '@/context/PatientContext'
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <PatientProvider>
+      <BrowserRouter>
+        <Routes>
         {/* Landing Pages (Public) */}
         <Route path="/" element={<HomePage />} />
         <Route path="/roadmap" element={<RoadmapPage />} />
@@ -56,6 +59,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+  </PatientProvider>
   )
 }
 
