@@ -18,12 +18,12 @@ try:
     _lstm_model = load_model(os.path.join(_script_dir, "models/caremind_lstm.h5"))
     _xgb_model = pickle.load(open(os.path.join(_script_dir, "models/caremind_xgb.pkl"), "rb"))
     MODELS_LOADED = True
-    print("✅ ML models loaded successfully.")
+    print("INFO: ML models loaded successfully.")
 except Exception as e:
     _lstm_model = None
     _xgb_model = None
     MODELS_LOADED = False
-    print(f"⚠️  ML models not loaded: {e}")
+    print(f"WARNING: ML models not loaded: {e}")
 
 
 # ─── Feature helpers ────────────────────────────────────────────────────────────

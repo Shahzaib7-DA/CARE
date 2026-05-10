@@ -4,6 +4,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from env_utils import load_backend_env
 
 # Import routers
 from routes.health      import router as health_router
@@ -13,24 +14,25 @@ from routes.dashboard   import router as dashboard_router
 
 # Get the directory of this script
 script_dir = os.path.dirname(os.path.abspath(__file__))
+load_backend_env(os.path.join(script_dir, ".env"))
 
 
 # Startup and shutdown events
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Handle startup and shutdown events"""
-    print("🚀 CareMind API Server Starting...")
+    print("INFO: CareMind API Server Starting...")
     # Verify DB connection on startup (database.py logs result on import)
     try:
         from database import DB_CONNECTED, client
         if DB_CONNECTED:
-            print("✅ MongoDB Atlas: Connected")
+            print("INFO: MongoDB Atlas: Connected")
         else:
-            print("⚠️  MongoDB Atlas: Not connected — running in API-only mode")
+            print("WARNING: MongoDB Atlas: Not connected - running in API-only mode")
     except Exception as e:
-        print(f"⚠️  Could not verify DB connection: {e}")
+        print(f"WARNING: Could not verify DB connection: {e}")
     yield
-    print("🛑 CareMind API Server Shutting Down...")
+    print("INFO: CareMind API Server Shutting Down...")
 
 
 # Create FastAPI app
@@ -75,4 +77,4 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

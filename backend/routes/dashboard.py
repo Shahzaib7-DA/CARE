@@ -6,6 +6,8 @@ Endpoint:
 """
 from fastapi import APIRouter, HTTPException
 from database import get_collections
+from database import DB_CONNECTED
+from mock_data import MOCK_ALERTS, mock_dashboard_stats
 
 router = APIRouter()
 
@@ -17,6 +19,12 @@ async def get_dashboard_stats():
     Matches the DashboardStats TypeScript type exactly.
     """
     try:
+        if not DB_CONNECTED:
+            return {
+                "success": True,
+                "data": mock_dashboard_stats(),
+            }
+
         cols = get_collections()
         patients_col = cols["patients"]
 
@@ -43,6 +51,9 @@ async def get_dashboard_stats():
 async def get_alerts():
     """Return all alerts (most recent first)."""
     try:
+        if not DB_CONNECTED:
+            return {"success": True, "data": MOCK_ALERTS}
+
         cols = get_collections()
         docs = list(cols["alerts"].find({}, {"_id": 0}).sort("timestamp", -1))
         return {"success": True, "data": docs}

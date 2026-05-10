@@ -1,33 +1,35 @@
 import os
-from dotenv import load_dotenv
 import pymongo
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
+from pymongo.errors import ConfigurationError, ConnectionFailure, ServerSelectionTimeoutError
+from env_utils import load_backend_env
 
-# Load environment variables from .env
-load_dotenv()
+# Load environment variables from the backend .env file
+load_backend_env()
 
 MONGO_URI = os.getenv("MONGO_URI")
 
 if not MONGO_URI:
-    raise RuntimeError("MONGO_URI not found in environment. Please check your .env file.")
-
-# Create a single MongoClient instance to be reused across the application
-try:
-    client: MongoClient = MongoClient(
-        MONGO_URI,
-        serverSelectionTimeoutMS=5000,  # 5 second timeout for connection
-        connectTimeoutMS=10000,
-    )
-    # The ismaster command is cheap and does not require auth.
-    client.admin.command("ismaster")
-    print("✅ Connected to MongoDB Atlas successfully!")
-    DB_CONNECTED = True
-except (ConnectionFailure, ServerSelectionTimeoutError) as e:
-    print(f"⚠️  MongoDB connection failed: {e}")
-    print("   API will start but database operations will fail.")
+    print("WARNING: MONGO_URI not found in environment. Running in API-only mode.")
     client = None  # type: ignore
     DB_CONNECTED = False
+else:
+    # Create a single MongoClient instance to be reused across the application
+    try:
+        client: MongoClient = MongoClient(
+            MONGO_URI,
+            serverSelectionTimeoutMS=5000,  # 5 second timeout for connection
+            connectTimeoutMS=10000,
+        )
+        # The ismaster command is cheap and does not require auth.
+        client.admin.command("ismaster")
+        print("INFO: Connected to MongoDB Atlas successfully!")
+        DB_CONNECTED = True
+    except (ConfigurationError, ConnectionFailure, ServerSelectionTimeoutError) as e:
+        print(f"WARNING: MongoDB connection failed: {e}")
+        print("   API will start but database operations will fail.")
+        client = None  # type: ignore
+        DB_CONNECTED = False
 
 # Database name
 DB_NAME = "caremind"

@@ -15,8 +15,10 @@ from typing import Optional
 import json
 
 from database import get_collections
+from database import DB_CONNECTED
 from schemas.patient import PatientCreate, PatientOut, VitalsSubmission
 from services.prediction_service import run_prediction, maybe_create_alert, MODELS_LOADED
+from mock_data import MOCK_PATIENTS, find_mock_patient
 
 router = APIRouter()
 
@@ -102,7 +104,7 @@ async def create_patient(body: PatientCreate):
                 })
             except Exception as pred_err:
                 # Don't fail the whole create if prediction errors
-                print(f"⚠️  Initial prediction failed for {body.patient_id}: {pred_err}")
+                print(f"WARNING: Initial prediction failed for {body.patient_id}: {pred_err}")
 
         # Save patient
         patients_col.insert_one(patient_doc)
@@ -139,6 +141,12 @@ async def create_patient(body: PatientCreate):
 async def list_patients(risk_level: Optional[str] = None):
     """Return all patients, optionally filtered by risk_level (GREEN|YELLOW|RED)."""
     try:
+        if not DB_CONNECTED:
+            patients = MOCK_PATIENTS
+            if risk_level:
+                patients = [patient for patient in patients if patient["risk_level"] == risk_level.upper()]
+            return _success(patients)
+
         cols = get_collections()
         query = {}
         if risk_level:
@@ -157,6 +165,12 @@ async def list_patients(risk_level: Optional[str] = None):
 async def get_patient(patient_id: str):
     """Return a single patient by ID."""
     try:
+        if not DB_CONNECTED:
+            patient = find_mock_patient(patient_id)
+            if not patient:
+                raise HTTPException(status_code=404, detail=f"Patient '{patient_id}' not found.")
+            return _success(patient)
+
         cols = get_collections()
         doc = cols["patients"].find_one({"patient_id": patient_id}, {"_id": 0})
         if not doc:
@@ -178,6 +192,9 @@ async def submit_vitals(patient_id: str, body: VitalsSubmission):
     update the patient document, and create an alert if risk is RED.
     """
     try:
+        if not DB_CONNECTED:
+            raise HTTPException(status_code=503, detail="MongoDB is disconnected. Patient vitals updates are unavailable in API-only mode.")
+
         cols = get_collections()
         patients_col = cols["patients"]
         vitals_col   = cols["vitals_history"]
@@ -266,6 +283,14 @@ async def submit_vitals(patient_id: str, body: VitalsSubmission):
 async def mark_treated(patient_id: str):
     """Mark patient status as 'treated'."""
     try:
+        if not DB_CONNECTED:
+            patient = find_mock_patient(patient_id)
+            if not patient:
+                raise HTTPException(status_code=404, detail=f"Patient '{patient_id}' not found.")
+            patient["status"] = "treated"
+            patient["last_updated"] = _now_iso()
+            return _success({"patient_id": patient_id, "status": "treated"})
+
         cols = get_collections()
         result = cols["patients"].update_one(
             {"patient_id": patient_id},
@@ -294,6 +319,17 @@ async def mark_treated(patient_id: str):
 async def get_patient_history(patient_id: str):
     """Return the risk trend (sepsis_risk values) for a patient over time."""
     try:
+        if not DB_CONNECTED:
+            patient = find_mock_patient(patient_id)
+            if not patient:
+                raise HTTPException(status_code=404, detail=f"Patient '{patient_id}' not found.")
+            history = patient.get("trend", [])
+            return _success({
+                "patient_id": patient_id,
+                "history": history,
+                "count": len(history),
+            })
+
         cols = get_collections()
 
         # Pull all predictions for this patient, sorted by time
